@@ -1,40 +1,22 @@
-require('./config/config')
+require('./config/config');
+const mongoose = require('mongoose');
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
-//body parse
-// parse application/x-www-form-urlencoded
+const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
-
-// parse application/json
 app.use(bodyParser.json());
 
-app.post('/usuario', (req, res) => {
-    let body = req.body;
 
-    if (body.nombre === undefined) {
-        res.status(400).json({
-            ok: false,
-            mensaje: 'El nombre es necesario'
-        });
-    } else {
+app.use(require('./routes/usuario'));
 
-        res.json({
-            persona: body
-        });
-    }
+mongoose.connect(process.env.urlDB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}, (err, res) => {
+    if (err) throw err;
+    console.log('Base de datos online');
+
 });
-
-app.put('/usuario/:id', (req, res) => {
-    let id = req.params.id;
-    res.json({
-        id
-    });
-});
-
-app.get('/', function (req, res) {
-    res.json('Hola mundo')
-})
 
 app.listen(process.env.PORT, () => {
     console.log(`Escuchando en el puerto ${process.env.PORT}`);
