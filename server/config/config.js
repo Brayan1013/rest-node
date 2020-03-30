@@ -16,7 +16,7 @@ let coneccionDB;
 if (process.env.NODE_ENV === 'dev') {
     coneccionDB = 'mongodb://localhost:27017/cafe';
 } else {
-    coneccionDB = 'mongodb+srv://brayan:GAdo1iXJNxgeAgLo@cluster0-vtovd.mongodb.net/cafe';
+    coneccionDB = process.env.URL_MONGO;
 }
 
 process.env.urlDB = coneccionDB;
